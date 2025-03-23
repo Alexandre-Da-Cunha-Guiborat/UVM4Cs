@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <VersionPrefix>0.1.0</VersionPrefix>
+    <PackageId>UVM4Cs.Service</PackageId>
+    <Authors>Alexandre DA CUNHA-GUIBORAT</Authors>
+    <Company>TBD</Company>
+    <Description>Package containing git wrappers, dotnet wrapper as well as some object for easier use of UVM for Cs project.</Description>
+
+    <IsNuGet>false</IsNuGet>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PackageReference Include="UVM.SDK" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PackageReference Include="UVM.SDK" Version="1.0.0-DEBUG" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>UVM4Cs.Test</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+</Project>
