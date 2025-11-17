@@ -1,206 +1,124 @@
-﻿using System.Collections.Generic;
-using Microsoft.Extensions.Logging;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UVM.Engine;
-using UVM.Interface;
-using UVM.Logging;
+using UVM.Interface.Interfaces;
 using UVM4Cs.Bll;
 
 namespace UVM4Cs.Engine
 {
     /// <summary>
-    ///  Library of function for Cs package versionne upgrading.
+    ///  Library of function for <see cref="UVM4CsCsproj"/> packaging.
     /// </summary>
-    public static class UVM4CsPackager
+    public class UVM4CsPackager
     {
-        #region DEBUG
-
-        /// <summary>
-        /// String representation of the assembly name.
-        /// </summary>
-        // private static readonly string _asmName = "UVM4Cs.Engine";
-
-        /// <summary>
-        /// String representation of the class name.
-        /// </summary>
-        // private static readonly string _className = "UVM4CsPackager";
-
-        #endregion DEBUG
+        #region Singleton
+        // TBD
+        #endregion Singleton
 
         #region Public
-
-        #region Constructor
-        // TBD
-        #endregion Constructor
-
-        #region Properties
-        // TBD
-        #endregion Properties
-
-        #region Method
-        // TBD
-        #endregion Method
-
-        #region Function
 
         /// <summary>
         /// Generate the given file.
         /// </summary>
-        /// <returns>true => generation succeed. false => otherwise.</returns>
-        public static bool GenerateFile(I_GenerableFile vfToGenerate)
+        /// <returns><see langword="true"/> => generation succeed, <see langword="false"/> => otherwise.</returns>
+        public Boolean GenerateFile(UVM4CsCsproj fileToGenerate)
         {
-            return vfToGenerate.Generate();
+            return fileToGenerate.Generate();
         }
 
         /// <summary>
         /// Generate the given file. (pass it the arguments.)
         /// </summary>
-        /// <param name="vfToGenerate">File to generate.</param>
-        /// <param name="outputPath">String representation of the absolute path to the location to generate the package.</param>
-        /// <param name="args">List of string used to specify arguments for generation.</param>
-        /// <returns>true => generation successed, false => otherwise</returns>
-        public static bool GenerateFile(I_GenerableFile vfToGenerate, string outputPath, List<string> args)
+        /// <param name="fileToGenerate">File to generate.</param>
+        /// <param name="outputPath"><see cref="String"/> representation of the absolute path to the location to generate the package.</param>
+        /// <param name="args"><see cref="List{T}"/> of <see cref="String"/> used to specify arguments for generation.</param>
+        /// <returns><see langword="true"/> => generation succeed, <see langword="false"/> => otherwise.</returns>
+        public Boolean GenerateFile(UVM4CsCsproj fileToGenerate, String outputPath, List<String> args)
         {
-            return UVMPackager.GenerateFile(vfToGenerate, outputPath, args);
+            return UVMPackager.GenerateFile(fileToGenerate, outputPath, args);
         }
 
         /// <summary>
         /// Generate all files.
         /// </summary>
-        /// <returns>true => all generation succeed. false => otherwise.</returns>
-        public static bool GenerateFiles(List<I_GenerableFile> vfsToGenerateOrdered)
+        /// <returns><see langword="true"/> => generation succeed, <see langword="false"/> => otherwise.</returns>
+        public Boolean GenerateFiles(List<UVM4CsCsproj> filesToGenerateOrdered)
         {
-            bool result = true;
-            foreach (List<I_GenerableFile> fToGenerate in vfsToGenerateOrdered)
-            {
-                if (GenerateFiles(fToGenerate) is false)
-                {
-                    result = false;
-                }
-            }
-            return result;
+            return UVMPackager.GenerateFiles(filesToGenerateOrdered.Cast<I_GenerableFile>().ToList());
         }
 
         /// <summary>
         /// Generate all files. (pass to each file the arguments (use positioning. file[i], path[i], args[i])).
         /// </summary>
-        /// <param name="vfsToGenerateOrdered">List of all files to generate. They must be ordered in the chronological way.</param>
-        /// <param name="outputPaths">List of string representation of the absolute path to the location to generate the package.</param>
-        /// <param name="args">List of List of string used to specifie arguments for each files.</param>
-        /// <returns>true => all generation succeed. false => otherwise.</returns>
-        public static bool GenerateFiles(List<I_GenerableFile> vfsToGenerateOrdered, List<string> outputPaths, List<List<string>> args)
+        /// <param name="filesToGenerateOrdered"><see cref="List{T}"/> of all <see cref="UVM4CsCsproj"/> to generate. They must be ordered in the chronological way.</param>
+        /// <param name="outputPath"><see cref="List{T}"/> of <see cref="String"/> representation of the absolute path to the location to generate the package.</param>
+        /// <param name="args"><see cref="List{T}"/> of <see cref="List{T}"/> of <see cref="String"/> used to specify arguments for generation.</param>
+        /// <returns><see langword="true"/> => generation succeed, <see langword="false"/> => otherwise.</returns>
+        public Boolean GenerateFiles(List<UVM4CsCsproj> filesToGenerateOrdered, List<String> outputPaths, List<List<String>> args)
         {
-            return UVMPackager.GenerateFiles(vfsToGenerateOrdered, outputPaths, args);
+            return UVMPackager.GenerateFiles(filesToGenerateOrdered.Cast<I_GenerableFile>().ToList(), outputPaths, args);
         }
 
         /// <summary>
         /// Generate all files.
         /// </summary>
-        /// <returns>true => all generation succeed. false => otherwise.</returns>
-        public static bool GenerateFiles(List<List<I_GenerableFile>> filesToGenerateOrdered)
+        /// <returns><see langword="true"/> => generation succeed, <see langword="false"/> => otherwise.</returns>
+        public Boolean GenerateFiles(List<List<UVM4CsCsproj>> filesToGenerateOrdered)
         {
-            bool result = true;
-            foreach (List<I_GenerableFile> subFilesToGenerateOrderedPar in filesToGenerateOrdered)
+            Boolean success = true;
+            foreach (List<UVM4CsCsproj> subFilesToGenerateOrderedPar in filesToGenerateOrdered)
             {
                 if (GenerateFiles(subFilesToGenerateOrderedPar) is false)
                 {
-                    result = false;
+                    success = false;
                 }
             }
 
-            return result;
+            return success;
         }
 
         /// <summary>
         /// Generate all files. (pass to each file the arguments (use positioning. file[i], path[i], args[i])).
         /// </summary>
-        /// <param name="vfsToGenerateOrdered">List of List of all files to generate. They must be ordered in the chronological way.</param>
-        /// <param name="outputPaths">List of List of string representation of the absolute path to the location to generate the package.</param>
-        /// <param name="args">List of List of List of string used to specifie arguments for each files.</param>
-        /// <returns>true => all generation succeed. false => otherwise.</returns>
-        public static bool GenerateFiles(List<List<I_GenerableFile>> vfsToGenerateOrdered, List<List<string>> outputPaths, List<List<List<string>>> args)
+        /// <param name="filesToGenerateOrdered"><see cref="List{T}"/> of <see cref="List{T}"/> of all <see cref="UVM4CsCsproj"/> to generate. They must be ordered in the chronological way.</param>
+        /// <param name="outputPath"><see cref="List{T}"/> of <see cref="List{T}"/> of <see cref="String"/> representation of the absolute path to the location to generate the package.</param>
+        /// <param name="args"><see cref="List{T}"/> of <see cref="List{T}"/> of <see cref="List{T}"/> of <see cref="String"/> used to specify arguments for generation.</param>
+        /// <returns><see langword="true"/> => generation succeed, <see langword="false"/> => otherwise.</returns>
+        public Boolean GenerateFiles(List<List<UVM4CsCsproj>> filesToGenerateOrdered, List<List<String>> outputPaths, List<List<List<String>>> args)
         {
-            return UVMPackager.GenerateFiles(vfsToGenerateOrdered, outputPaths, args);
-        }
-
-        // <summary>
-        /// Compute the list of all generable files in the given list.
-        /// </summary>
-        /// <param name="filesMayBeGenerate">List of List of all files that must be updated. (<see cref="I_VersionnableFile">)</param>
-        /// <returns>List of all generable files in the given list.</returns>
-        public static List<List<I_GenerableFile>> GetGenerableFiles(List<List<I_VersionnableFile>> vfPool)
-        {
-
-            List<List<I_GenerableFile>> filesToGenerateOrdered = [];
-            foreach (List<I_VersionnableFile> filesMaybeGenerateSub in vfPool)
+            List<List<I_GenerableFile>> filesToGenerateOrderedCasted = [];
+            foreach (List<UVM4CsCsproj> filesToGenerateOrderedSub in filesToGenerateOrdered)
             {
-                List<I_GenerableFile> filesToGenerateSub = [];
-                foreach (I_VersionnableFile fMaybeGenerate in filesMaybeGenerateSub)
-                {
-                    if (fMaybeGenerate.VFExtension.Equals(".csproj"))
-                    {
-                        filesToGenerateSub.Add((UVM4CsCsproj)fMaybeGenerate);
-                    }
-                }
-
-                filesToGenerateOrdered.Add(filesToGenerateSub);
+                filesToGenerateOrderedCasted.Add(filesToGenerateOrderedSub.Cast<I_GenerableFile>().ToList());
             }
-            return filesToGenerateOrdered;
+
+            return UVMPackager.GenerateFiles(filesToGenerateOrderedCasted, outputPaths, args);
         }
-
-        #endregion Function
-
-        #region Field
-        // TBD
-        #endregion Field
 
         #endregion Public
 
         #region Protected
-
-        #region Constructor
         // TBD
-        #endregion Constructor
-
-        #region Properties
-        // TBD
-        #endregion Properties
-
-        #region Method
-        // TBD
-        #endregion Method
-
-        #region Function
-        // TBD
-        #endregion Function
-
-        #region Field
-        // TBD
-        #endregion Field
-
         #endregion Protected
 
         #region Private
-
-        #region Constructor
         // TBD
-        #endregion Constructor
-
-        #region Properties
-        // TBD
-        #endregion Properties
-
-        #region Method
-        // TBD
-        #endregion Method
-
-        #region Function
-        // TBD
-        #endregion Function
-
-        #region Field
-        // TBD
-        #endregion Field
-
         #endregion Private
+
+        #region DEBUG
+
+        /// <summary>
+        /// <see cref="String"/> representation of the assembly name.
+        /// </summary>
+        // private static String _asmName = Assembly.GetExecutingAssembly().Location ?? String.Empty;
+
+        /// <summary>
+        /// <see cref="String"/> representation of the class name.
+        /// </summary>
+        // private static String _className = nameof(UVM4CsPackager);
+
+        #endregion DEBUG
     }
 }

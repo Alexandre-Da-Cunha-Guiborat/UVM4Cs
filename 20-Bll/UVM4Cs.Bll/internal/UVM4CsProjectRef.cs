@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
-using System.Xml.Linq;
-using System;
+﻿using System;
 using System.IO;
+using System.Reflection;
+using System.Xml.Linq;
 using UVM.Logging;
 
 namespace UVM4Cs.Bll
@@ -11,24 +11,16 @@ namespace UVM4Cs.Bll
     /// </summary>
     internal class UVM4CsProjectRef
     {
-
-        #region DEBUG
-
-        /// <summary>
-        /// String representation of the assembly name.
-        /// </summary>
-        private const string _asmName = "UVM4Cs.Bll";
-
-        /// <summary>
-        /// String representation of the class name.
-        /// </summary>
-        private const string _className = "UVM4CsPackageRef";
-
-        #endregion DEBUG
+        #region Singleton
+        // TBD
+        #endregion Singleton
 
         #region Public
 
-        #region Constructor
+        /// <summary>
+        /// <see cref="String"/> representing the "Include" attribute.
+        /// </summary>
+        public String Include { get; private set; }
 
         /// <summary>
         /// UVM4CsProjectRef constructor.
@@ -36,19 +28,19 @@ namespace UVM4Cs.Bll
         /// <param name="projectReferenceElement"><see cref="XElement"/> of the Project Reference we want to create.</param>
         public UVM4CsProjectRef(XElement projectReferenceElement)
         {
-            string title = UVMLogger.CreateTitle(_asmName, _className, $"UVM4CsProjectRef");
+            String title = UVMLogger.CreateTitle(_asmName, _className, $"{nameof(UVM4CsProjectRef)}");
 
             if (projectReferenceElement is not null)
             {
                 XAttribute? includeAttribute = projectReferenceElement.Attribute("Include");
                 if (includeAttribute is not null)
                 {
-                    string include = includeAttribute.Value;
+                    String include = includeAttribute.Value;
                     Include = Path.GetFileNameWithoutExtension(include);
                 }
                 else
                 {
-                    Include = string.Empty;
+                    Include = String.Empty;
 
                     Exception exception = new Exception($"{title} :\nA ProjectReference do not contain a value for attribute <Include>.");
                     throw exception;
@@ -56,7 +48,7 @@ namespace UVM4Cs.Bll
             }
             else
             {
-                Include = string.Empty;
+                Include = String.Empty;
 
                 Exception exception = new Exception($"{title} :\nprojectReferenceElement given is null.");
                 throw exception;
@@ -64,77 +56,28 @@ namespace UVM4Cs.Bll
 
         }
 
-        #endregion Constructor
-
-        #region Properties
-
-        /// <summary>
-        /// String representing the "Include" attribute.
-        /// </summary>
-        public string Include { get; }
-
-        #endregion Properties
-
-        #region Method
-        // TBD
-        #endregion Method
-
-        #region Function
-        // TBD
-        #endregion Function
-
-        #region Field
-        // TBD
-        #endregion Field
-
         #endregion Public
 
         #region Protected
-
-        #region Constructor
         // TBD
-        #endregion Constructor
-
-        #region Properties
-        // TBD
-        #endregion Properties
-
-        #region Method
-        // TBD
-        #endregion Method
-
-        #region Function
-        // TBD
-        #endregion Function
-
-        #region Field
-        // TBD
-        #endregion Field
-
         #endregion Protected
 
         #region Private
-
-        #region Constructor
         // TBD
-        #endregion Constructor
-
-        #region Properties
-        // TBD
-        #endregion Properties
-
-        #region Method
-        // TBD
-        #endregion Method
-
-        #region Function
-        // TBD
-        #endregion Function
-
-        #region Field
-        // TBD
-        #endregion Field
-
         #endregion Private
+
+        #region DEBUG
+
+        /// <summary>
+        /// <see cref="String"/> representation of the assembly name.
+        /// </summary>
+        private static String _asmName = Assembly.GetExecutingAssembly().Location ?? String.Empty;
+
+        /// <summary>
+        /// <see cref="String"/> representation of the class name.
+        /// </summary>
+        private static String _className = nameof(UVM4CsPackageRef);
+
+        #endregion DEBUG
     }
 }

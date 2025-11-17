@@ -1,59 +1,35 @@
-﻿using System.Collections.Generic;
-using System;
-using UVM.Interface;
-using UVM.Logging;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 using UVM.Engine;
+using UVM.Interface.Enums;
+using UVM4Cs.Bll;
 
 namespace UVM4Cs.Engine
 {
 
     /// <summary>
-    ///  Library of function for .csproj reading.
+    ///  Library of function for <see cref="UVM4CsCsproj"/> updating.
     /// </summary>
-    public static class UVM4CsUpdater
+    public class UVM4CsUpdater
     {
 
-        #region DEBUG
-
-        /// <summary>
-        /// String representation of the assembly name.
-        /// </summary>
-        // private static readonly string _asmName = "UVM4Cs.Engine";
-
-        /// <summary>
-        /// String representation of the class name.
-        /// </summary>
-        // private static readonly string _className = "UVM4CsUpdater";
-
-        #endregion DEBUG
+        #region Singleton
+        // TBD
+        #endregion Singleton
 
         #region Public
-
-        #region Constructor
-        // TBD
-        #endregion Constructor
-
-        #region Properties
-        // TBD
-        #endregion Properties
-
-        #region Method
-        // TBD
-        #endregion Method
-
-        #region Function
 
         /// <summary>
         /// Update the given file's version.
         /// </summary>
-        /// <param name="vfToUpdate">VersionnableFile to update</param>
+        /// <param name="vfToUpdate"><see cref="UVM4CsCsproj"/> to update</param>
         /// <param name="vIdx">Index of the version to upgrade.</param>
-        /// <param name="buildT">BuilType to apply for the update.</param>
+        /// <param name="buildT"><see cref="BuildType"/> to apply for the update.</param>
         /// <param name="digitToUpgrade">Version's digit to upgrade</param>
         /// <param name="devId">DevId to use for the version's update</param>
-        /// <returns>true => update succeed, flase => otherwise.</returns>
-        public static bool UpdateFile(
-            I_VersionnableFile vfToUpdate, UInt16 vIdx, BuildType buildT, DigitType digitToUpgrade, UInt16 devId)
+        /// <returns><see langword="true"/> => update succeed, <see langword="false"/> => otherwise.</returns>
+        public Boolean UpdateFile(UVM4CsCsproj vfToUpdate, UInt16 vIdx, BuildType buildT, DigitType digitToUpgrade, UInt16 devId)
         {
             return UVMUpdater.UpdateFile(vfToUpdate, [vIdx], [buildT], [digitToUpgrade], [devId]);
         }
@@ -61,103 +37,71 @@ namespace UVM4Cs.Engine
         /// <summary>
         /// Update the all file's version.
         /// </summary>
-        /// <param name="vfsToUpdateOrdered">List of VersionnableFile to update. (Chronological order.)</param>
+        /// <param name="vfsToUpdateOrdered"><see cref="List{T}"/> of <see cref="UVM4CsCsproj"/> to update. (Chronological order.)</param>
         /// <param name="vIdx">Index of the version to upgrade.</param>
-        /// <param name="buildT">BuilType to apply for the update.</param>
+        /// <param name="buildT"><see cref="BuildType"/> to apply for the update.</param>
         /// <param name="digitToUpgrade">Version's digit to upgrade</param>
         /// <param name="devId">DevId to use for the version's update</param>
-        /// <returns>true => all update succeed, flase => otherwise.</returns>
-        public static bool UpdateFiles(List<I_VersionnableFile> vfsToUpdateOrdered, UInt16 vIdx, BuildType buildT, DigitType digitToUpgrade, UInt16 devId)
+        /// <returns><see langword="true"/> => update succeed, <see langword="false"/> => otherwise.</returns>
+        public Boolean UpdateFiles(List<UVM4CsCsproj> vfsToUpdateOrdered, UInt16 vIdx, BuildType buildT, DigitType digitToUpgrade, UInt16 devId)
         {
-            bool result = true;
-            foreach (I_VersionnableFile fToUpdate in vfsToUpdateOrdered)
+            Boolean success = true;
+            foreach (UVM4CsCsproj fToUpdate in vfsToUpdateOrdered)
             {
                 if (!UpdateFile(fToUpdate, vIdx, buildT, digitToUpgrade, devId))
                 {
-                    result = false;
+                    success = false;
                 }
             }
 
-            return result;
+            return success;
         }
 
         /// <summary>
         /// Update the all file's version.
         /// </summary>
-        /// <param name="vfsToUpdateOrdered">List of VersionnableFile to update. (Chronological order.)</param>
+        /// <param name="vfsToUpdateOrdered"><see cref="List{T}"/> of <see cref="List{T}"/> of <see cref="UVM4CsCsproj"/> to update. (Chronological order.)</param>
         /// <param name="vIdx">Index of the version to upgrade.</param>
-        /// <param name="buildT">BuilType to apply for the update.</param>
-        /// <param name="digitToUpgrade">Version's digit to upgrade</param>
+        /// <param name="buildT"><see cref="BuildType"/> to apply for the update.</param>
+        /// <param n1ame="digitToUpgrade">Version's digit to upgrade</param>
         /// <param name="devId">DevId to use for the version's update</param>
-        /// <returns>true => all update succeed, false => otherwise.</returns>
-        public static bool UpdateFiles(List<List<I_VersionnableFile>> vfsToUpdateOrdered, UInt16 vIdx, BuildType buildT, DigitType digitToUpgrade, UInt16 devId)
+        /// <returns><see langword="true"/> => update succeed, <see langword="false"/> => otherwise.</returns>
+        public Boolean UpdateFiles(List<List<UVM4CsCsproj>> vfsToUpdateOrdered, UInt16 vIdx, BuildType buildT, DigitType digitToUpgrade, UInt16 devId)
         {
-            bool result = true;
-            foreach (List<I_VersionnableFile> fToUpdates in vfsToUpdateOrdered)
+            Boolean success = true;
+            foreach (List<UVM4CsCsproj> fToUpdates in vfsToUpdateOrdered)
             {
                 if (!UpdateFiles(fToUpdates, vIdx, buildT, digitToUpgrade, devId))
                 {
-                    result = false;
+                    success = false;
                 }
             }
 
-            return result;
+            return success;
         }
-
-        #endregion Function
-
-        #region Field
-        // TBD
-        #endregion Field
 
         #endregion Public
 
         #region Protected
-
-        #region Constructor
         // TBD
-        #endregion Constructor
-
-        #region Properties
-        // TBD
-        #endregion Properties
-
-        #region Method
-        // TBD
-        #endregion Method
-
-        #region Function
-        // TBD
-        #endregion Function
-
-        #region Field
-        // TBD
-        #endregion Field
-
         #endregion Protected
 
         #region Private
-
-        #region Constructor
         // TBD
-        #endregion Constructor
-
-        #region Properties
-        // TBD
-        #endregion Properties
-
-        #region Method
-        // TBD
-        #endregion Method
-
-        #region Function
-        // TBD
-        #endregion Function
-
-        #region Field
-        // TBD
-        #endregion Field
-
         #endregion Private
+
+        #region DEBUG
+
+        /// <summary>
+        /// <see cref="String"/> representation of the assembly name.
+        /// </summary>
+        // private static String _asmName = Assembly.GetExecutingAssembly().Location ?? String.Empty;
+
+        /// <summary>
+        /// <see cref="String"/> representation of the class name.
+        /// </summary>
+        // private static String _className = nameof(UVM4CsUpdater);
+
+        #endregion DEBUG
     }
 }
