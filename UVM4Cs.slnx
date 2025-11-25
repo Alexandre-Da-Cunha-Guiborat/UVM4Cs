@@ -1,0 +1,37 @@
+<Solution>
+    <Configurations>
+        <BuildType Name="Release" />
+        <BuildType Name="Debug" />
+        <BuildType Name="DebugProject" />
+    </Configurations>
+    <Folder Name="/10-Common/">
+        <Project Path="10-Common/UVM4Cs.Common/UVM4Cs.Common.csproj" />
+    </Folder>
+    <Folder Name="/20-Bll/">
+        <Project Path="20-Bll/UVM4Cs.Bll/UVM4Cs.Bll.csproj" />
+    </Folder>
+    <Folder Name="/30-Engine/">
+        <Project Path="30-Engine/UVM4Cs.Engine/UVM4Cs.Engine.csproj" />
+    </Folder>
+    <Folder Name="/40-Service/">
+        <Project Path="40-Service/UVM4Cs.Service/UVM4Cs.Service.csproj" />
+    </Folder>
+    <Folder Name="/50-App/">
+        <Project Path="50-App/UVM4Cs.CLI/UVM4Cs.CLI.csproj" />
+    </Folder>
+    <Folder Name="/60-Demo/">
+    </Folder>
+    <Folder Name="/70-Test/">
+    </Folder>
+    <Folder Name="/80-Doc/">
+    </Folder>
+    <Folder Name="/90-Script/">
+        <File Path="90-Script/bin_obj_restore_script.py" />
+        <File Path="90-Script/Gen_NuGet_All.py" />
+        <File Path="90-Script/Gen_NuGet_Cs_Template.py" />
+    </Folder>
+    <Folder Name="/90-Script/utils/">
+        <File Path="90-Script/utils/Gen_NuGet_Utils.py" />
+    </Folder>
+
+</Solution>

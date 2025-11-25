@@ -1,5 +1,6 @@
-﻿using System.Xml.Linq;
-using System;
+﻿using System;
+using System.Reflection;
+using System.Xml.Linq;
 using UVM.Interface;
 using UVM.Logging;
 
@@ -10,23 +11,21 @@ namespace UVM4Cs.Bll
     /// </summary>
     internal class UVM4CsPackageRef
     {
-        #region DEBUG
-
-        /// <summary>
-        /// String representation of the assembly name.
-        /// </summary>
-        private const string _asmName = "UVM4Cs.Bll";
-
-        /// <summary>
-        /// String representation of the class name.
-        /// </summary>
-        private const string _className = "UVM4CsPackageRef";
-
-        #endregion DEBUG
+        #region Singleton
+        // TBD
+        #endregion Singleton
 
         #region Public
 
-        #region Constructor
+        /// <summary>
+        /// <see cref="String"/> representation of the "Include" attribute.
+        /// </summary>
+        public String Include { get; private set; }
+
+        /// <summary>
+        /// <see cref="String"/> representation of the "Version" attribute.
+        /// </summary
+        public String Version { get; private set; }
 
         /// <summary>
         /// UVM4CsPackageRef constructor.
@@ -34,7 +33,7 @@ namespace UVM4Cs.Bll
         /// <param name="packageReferenceElement"><see cref="XElement"/> of the Package Reference.</param>
         public UVM4CsPackageRef(XElement packageReferenceElement)
         {
-            string title = UVMLogger.CreateTitle(_asmName, _className, $"UVM4CsPackageRef");
+            String title = UVMLogger.CreateTitle(_asmName, _className, $"{nameof(UVM4CsPackageRef)}");
 
             if (packageReferenceElement is null)
             {
@@ -72,88 +71,34 @@ namespace UVM4Cs.Bll
                 }
                 else
                 {
-                    Version = UVMConstante.BAD_VERSION_STR;
+                    Version = UVMConstant.BAD_VERSION_STR;
                 }
             }
 
         }
 
-        #endregion Constructor
-
-        #region Properties
-
-        /// <summary>
-        /// String representation of the "Include" attribute.
-        /// </summary>
-        public string Include { get; }
-
-        /// <summary>
-        /// String representation of the "Version" attribute.
-        /// </summary
-        public string Version { get; }
-
-        #endregion Properties
-
-        #region Method
-        // TBD
-        #endregion Method
-
-        #region Function
-        // TBD
-        #endregion Function
-
-        #region Field
-        // TBD
-        #endregion Field
-
         #endregion Public
 
         #region Protected
-
-        #region Constructor
         // TBD
-        #endregion Constructor
-
-        #region Properties
-        // TBD
-        #endregion Properties
-
-        #region Method
-        // TBD
-        #endregion Method
-
-        #region Function
-        // TBD
-        #endregion Function
-
-        #region Field
-        // TBD
-        #endregion Field
-
         #endregion Protected
 
         #region Private
-
-        #region Constructor
         // TBD
-        #endregion Constructor
-
-        #region Properties
-        // TBD
-        #endregion Properties
-
-        #region Method
-        // TBD
-        #endregion Method
-
-        #region Function
-        // TBD
-        #endregion Function
-
-        #region Field
-        // TBD
-        #endregion Field
-
         #endregion Private
+
+        #region DEBUG
+
+        /// <summary>
+        /// <see cref="String"/> representation of the assembly name.
+        /// </summary>
+        private static String _asmName = Assembly.GetExecutingAssembly().Location ?? String.Empty;
+
+        /// <summary>
+        /// <see cref="String"/> representation of the class name.
+        /// </summary>
+        private static String _className = nameof(UVM4CsPackageRef);
+
+        #endregion DEBUG
     }
 }
