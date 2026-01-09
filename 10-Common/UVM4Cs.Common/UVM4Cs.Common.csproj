@@ -1,31 +1,67 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>disable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-
-    <PackageId>UVM4Cs.Common</PackageId>
-    <VersionPrefix>0.1.0</VersionPrefix>
-    <Authors>Alexandre DA CUNHA-GUIBORAT</Authors>
-    <Company>TBD</Company>
-    <Description>Package containing common utils like constantes used accros all UVM4Cs solution.</Description>
-
-    <IsNuGet>false</IsNuGet>
-  </PropertyGroup>
-
-  <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PackageReference Include="UVM.SDK" Version="1.0.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PackageReference Include="UVM.SDK" Version="1.0.0-DEBUG" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-      <_Parameter1>UVM4Cs.Test</_Parameter1>
-    </AssemblyAttribute>
-  </ItemGroup>
-
+    <!-- ================================================== -->
+    <!-- ========== Project Information ========== -->
+    <!-- ================================================== -->
+    <PropertyGroup Label="Project_Information">
+        <Authors>Alexandre DA CUNHA--GUIBORAT</Authors>
+        <Company>TBD</Company>
+    </PropertyGroup>
+    <!-- ================================================== -->
+    <!-- ========== Package Information ========== -->
+    <!-- ================================================== -->
+    <PropertyGroup Label="Package_Information">
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Configurations>Release;Debug;DebugProject</Configurations>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+    <!-- ================================================== -->
+    <!-- ========== Package Information ========== -->
+    <!-- ================================================== -->
+    <PropertyGroup Label="Package_Information">
+        <IsPackable>false</IsPackable>
+        <PackageId>UVM4Cs.Common</PackageId>
+        <VersionPrefix>1.0.0.0</VersionPrefix>
+        <VersionSuffix>alpha.1.0.0</VersionSuffix>
+        <Description>Project containing common utils like constants used all across UVM4Cs solution.</Description>
+    </PropertyGroup>
+    <!-- ================================================== -->
+    <!-- ========== Exposition of internals ========== -->
+    <!-- ================================================== -->
+    <ItemGroup Label="Internals_Exposition">
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+            <_Parameter1>UVM4Cs.Common.Test</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+    <!-- ================================================== -->
+    <!-- ========== ThirdParty Dependencies ========== -->
+    <!-- ================================================== -->
+    <ItemGroup Label="ThirdParty_Dependencies">
+        <PackageReference Include="LibGit2Sharp" Version="0.31.0" />
+        <PackageReference Include="UVM.SDK" Version="1.0.0.0-alpha.1.0.0" />
+    </ItemGroup>
+    <!-- ================================================== -->
+    <!-- ========== Package dependencies (Release) ========== -->
+    <!-- ================================================== -->
+    <ItemGroup Label="Release_Dependencies"
+        Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    </ItemGroup>
+    <!-- ================================================== -->
+    <!-- ========== Package dependencies (Debug) ========== -->
+    <!-- ================================================== -->
+    <ItemGroup Label="Debug_Dependencies"
+        Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    </ItemGroup>
+    <!-- ================================================== -->
+    <!-- ========== Project dependencies (DebugProject) ========== -->
+    <!-- ================================================== -->
+    <ItemGroup Label="DebugProject_Dependencies"
+        Condition=" '$(Configuration)|$(Platform)' == 'DebugProject|AnyCPU' ">
+    </ItemGroup>
+    <!-- ================================================== -->
+    <!-- ========== Misc. ========== -->
+    <!-- ================================================== -->
+    <ItemGroup Label="Misc">
+    </ItemGroup>
 </Project>

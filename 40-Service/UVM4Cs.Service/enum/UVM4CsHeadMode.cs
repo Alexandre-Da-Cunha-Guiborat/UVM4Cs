@@ -9,16 +9,21 @@ namespace UVM4Cs.Service
         /// <summary>
         /// SHOULD NOT BE ENCOUNTER! (Can be used for initialization and error detection.)
         /// </summary>
-        NONE = 0,
+        UVM4CsHeadMode_NONE,
 
         /// <summary>
-        /// Reprensetation of a comparaison with the branchRef/head
+        /// Representation of a comparison with the branchRef/head
         /// </summary>
-        HEAD = 1,
+        HEAD,
 
         /// <summary>
-        /// Reprensetation of a comparaison with the branchRef/prevCommit
+        /// Representation of a comparison with the branchRef/prevCommit
         /// </summary>
-        PREVCOMMIT = 2
+        PREVIOUS_COMMIT,
+
+        /// <summary>
+        /// SHOULD NOT BE ENCOUNTER! (Can be used to know the size of the enum.)
+        /// </summary>
+        UVM4CsHeadMode_SIZE
     }
 }

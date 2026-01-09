@@ -9,16 +9,21 @@ namespace UVM4Cs.Service
         /// <summary>
         /// SHOULD NOT BE ENCOUNTER! (Can be used for initialization and error detection.)
         /// </summary>
-        NONE = 0,
+        UVM4CsFunctionMode_NONE,
 
         /// <summary>
-        /// Reprensetation of a run that aims to upgrade the whole targeted project.
+        /// Representation of a run that aims to upgrade the whole targeted project.
         /// </summary>
-        WHOLEPROJECT = 1,
+        WHOLE_PROJECT,
 
         /// <summary>
-        /// Reprensetation of a run that aims to upgrade only the necessary files to upgrade a given target in the targeted project.
+        /// Representation of a run that aims to upgrade only the necessary files to upgrade a given target in the targeted project.
         /// </summary>
-        TARGET = 2
+        TARGET,
+
+        /// <summary>
+        /// SHOULD NOT BE ENCOUNTER! (Can be used to know the size of the enum.)
+        /// </summary>
+        UVM4CsFunctionMode_SIZE
     }
 }
